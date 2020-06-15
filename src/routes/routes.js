@@ -6,10 +6,10 @@ Router.get('/*', unipadController.getUnipad)
 
 Router.post('/auth', unipadController.postLogin)
 
-Router.post('/new', unipadController.postUrl)
+Router.post('/*', unipadController.postUrl)
 
 Router.delete('/expiration', unipadController.expirationUrl)
 
-Router.put('/edit', unipadController.putUrl)
+Router.put('/edit/*', unipadController.putUrl)
 
 module.exports = Router

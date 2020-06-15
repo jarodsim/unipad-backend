@@ -40,6 +40,7 @@ module.exports = {
     // POST - login
     async postLogin(req, res) {
         let { url, password } = req.body
+        //password = encript(password)
         url = '/pad' + url
         console.log('URL LOGIN:' + url)
         const response = await Unipad.findOne({ url: url, password: password })
@@ -53,10 +54,13 @@ module.exports = {
 
     // POST - Url
     async postUrl(req, res) {
-        let { password, expiration, format, secure, url } = req.body
+        const url = req.originalUrl
         console.log(`POST - original url: ${url}`);
 
+        let { password, expiration, format, secure } = req.body
+
         if (password !== null) {
+            //password = encript(password)
             secure = true
         }
 
@@ -125,6 +129,7 @@ module.exports = {
             })
         }
     },
+
     async expirationUrl(rea, res) {
         try {
             let response = await Unipad.find()

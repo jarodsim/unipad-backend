@@ -35,6 +35,11 @@ const UnipadSchema = new mongoose.Schema({
         type: Date,
         default: ''
     },
+
+    dateCreation: {
+        type: Date,
+        default: Date.now
+    }
 })
 
 
