@@ -95,7 +95,7 @@ module.exports = {
     },
 
     async putUrl(req, res) {
-        let { pad, url } = req.body
+        let { pad, url, format } = req.body
         url = '/pad' + url
         console.log("PUT - URL: " + url)
 
@@ -105,7 +105,8 @@ module.exports = {
 
             if (unipad !== null) {
                 await Unipad.findOneAndUpdate({ url }, {
-                    pad
+                    pad,
+                    format
                 })
 
                 unipad = await Unipad.findOne({ url })
