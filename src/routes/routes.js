@@ -1,10 +1,12 @@
 const Router = require('express').Router()
+const auth = require('../middlewares/auth')
 
 const unipadController = require('../controllers/unipadController')
+const authControler = require('../controllers/authController')
 
-Router.get('/*', unipadController.getUnipad)
+Router.get('/*', auth, unipadController.getUnipad)
 
-Router.post('/auth', unipadController.postLogin)
+Router.post('/auth', authControler.PostLogin)
 
 Router.post('/*', unipadController.postUrl)
 

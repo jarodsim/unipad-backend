@@ -37,20 +37,20 @@ module.exports = {
         }
     },
 
-    // POST - login
-    async postLogin(req, res) {
-        let { url, password } = req.body
-        //password = encript(password)
-        url = '/pad' + url
-        console.log('URL LOGIN:' + url)
-        const response = await Unipad.findOne({ url: url, password: password })
+    // // POST - login
+    // async postLogin(req, res) {
+    //     let { url, password } = req.body
+    //     //password = encript(password)
+    //     url = '/pad' + url
+    //     console.log('URL LOGIN:' + url)
+    //     const response = await Unipad.findOne({ url: url, password: password })
 
-        if (response !== null) {
-            return res.json({ success: true, authorized: true })
-        } else {
-            return res.json({ success: false, authorized: false })
-        }
-    },
+    //     if (response !== null) {
+    //         return res.json({ success: true, authorized: true })
+    //     } else {
+    //         return res.json({ success: false, authorized: false })
+    //     }
+    // },
 
     // POST - Url
     async postUrl(req, res) {
