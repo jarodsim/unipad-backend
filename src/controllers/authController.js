@@ -1,6 +1,7 @@
 const Unipad = require('../models/unipad')
 
 const jwt = require('jsonwebtoken')
+const unipadController = require('./unipadController')
 require('dotenv').config()
 
 
@@ -9,6 +10,7 @@ module.exports = {
     async PostLogin(req, res) {
         try {
             let { password, url } = req.body
+            url = `/pad${url}`
 
             const unipad = await Unipad.findOne({ url: url, password: password })
 
@@ -18,10 +20,11 @@ module.exports = {
                 })
 
                 res.json({
-                    token
+                    token: token,
+                    secure: unipad.secure
                 })
             } else {
-                return res.status(401).json({
+                return res.json({
                     success: false,
                     description: 'url não encontrada'
                 })

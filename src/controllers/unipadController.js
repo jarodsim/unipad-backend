@@ -1,5 +1,4 @@
 const Unipad = require('../models/unipad')
-const encript = require('../util/encripty')
 
 module.exports = {
     // GET - Url
@@ -14,6 +13,41 @@ module.exports = {
             if (unipad !== null) {
                 res.json({
                     pad: unipad.pad,
+                    secure: unipad.secure,
+                    url: unipad.url,
+                    format: unipad.format,
+                    success: true,
+                    description: 'url encontrada e retornada com sucesso'
+                })
+            } else {
+                res.json({
+                    success: false,
+                    description: 'url nao existe'
+                })
+            }
+
+        } catch (error) {
+            console.log(error)
+            res.json({
+                success: false,
+                description: 'erro na rota',
+                error: error.message
+            })
+        }
+    },
+
+    // Verifica se a URL existe
+    async getExists(req, res) {
+        let { url } = req.body
+        url = `/pad${url}`
+        console.log('POST EXISTS URL: ' + url)
+
+        let unipad = ''
+        try {
+            unipad = await Unipad.findOne({ url })
+
+            if (unipad !== null) {
+                res.json({
                     secure: unipad.secure,
                     url: unipad.url,
                     format: unipad.format,
@@ -54,15 +88,9 @@ module.exports = {
 
     // POST - Url
     async postUrl(req, res) {
-        const url = req.originalUrl
-        console.log(`POST - original url: ${url}`);
-
-        let { password, expiration, format, secure } = req.body
-
-        if (password !== null) {
-            //password = encript(password)
-            secure = true
-        }
+        let { password, expiration, format, secure, url } = req.body
+        url = `/pad${url}`
+        console.log(`POST - NEW URL: ${url}`);
 
         try {
             let unipad = await Unipad.findOne({ url })

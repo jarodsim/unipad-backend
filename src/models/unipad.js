@@ -4,7 +4,7 @@ const UnipadSchema = new mongoose.Schema({
     password: {
         type: String,
         min: 3,
-        default: null,
+        default: '027094dad39dc2757c1d3fa235e12f70',
         required: false
     },
 

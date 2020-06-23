@@ -5,6 +5,10 @@ module.exports = (req, res, next) => {
     try {
         const authHeader = req.headers.authorization
 
+        if (authHeader === process.env.STANDART_TOKEN) {
+            return next()
+        }
+
         if (!authHeader) {
             return res.json({ success: false, description: 'sem header' })
         }
@@ -12,17 +16,17 @@ module.exports = (req, res, next) => {
         const parts = authHeader.split(' ')
 
         if (!parts.length === 2) {
-            return res.json({ success: false, description: 'token error' })
+            return res.json({ success: false, description: 'token error', token })
         }
 
         const [scheme, token] = parts
 
         if (!/^Bearer$/i.test(scheme)) {
-            return res.json({ success: false, description: 'token malformated' })
+            return res.json({ success: false, description: 'token malformated', token })
         }
 
         jwt.verify(token, process.env.JWT_TOKEN, (err, decoded) => {
-            if (err) return res.json({ success: false, description: 'token inválido' })
+            if (err) return res.json({ success: false, description: 'token inválido', token })
 
             req.userId = decoded.id
 
