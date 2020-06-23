@@ -16,7 +16,7 @@ module.exports = {
 
             if (unipad) {
                 const token = await jwt.sign({ id: unipad._id }, process.env.JWT_TOKEN, {
-                    expiresIn: 1800,
+                    expiresIn: 86400,
                 })
 
                 res.json({
