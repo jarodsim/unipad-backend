@@ -26,7 +26,7 @@ module.exports = {
             } else {
                 return res.json({
                     success: false,
-                    description: 'url não encontrada'
+                    description: 'url não encontrada ou senha incorreta'
                 })
             }
         } catch (error) {

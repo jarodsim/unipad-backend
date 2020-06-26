@@ -4,6 +4,7 @@ module.exports = {
     // GET - Url
     async getUnipad(req, res) {
         const url = req.originalUrl
+        const unipadID = req.unipadid
         console.log('GET URL: ' + url)
 
         let unipad = ''
@@ -11,14 +12,27 @@ module.exports = {
             unipad = await Unipad.findOne({ url })
 
             if (unipad !== null) {
-                res.json({
-                    pad: unipad.pad,
-                    secure: unipad.secure,
-                    url: unipad.url,
-                    format: unipad.format,
-                    success: true,
-                    description: 'url encontrada e retornada com sucesso'
-                })
+                const unipadid = String(unipad._id)
+                if (unipadid === unipadID) {
+                    res.json({
+                        pad: unipad.pad,
+                        secure: unipad.secure,
+                        url: unipad.url,
+                        format: unipad.format,
+                        success: true,
+                        description: 'url encontrada e retornada com sucesso'
+                    })
+                } else {
+                    res.json({
+                        success: false,
+                        secure: unipad.secure,
+                        url: unipad.url,
+                        format: unipad.format,
+                        description: 'id pertencente à outra url'
+                    })
+                }
+
+
             } else {
                 res.json({
                     success: false,
@@ -70,21 +84,6 @@ module.exports = {
             })
         }
     },
-
-    // // POST - login
-    // async postLogin(req, res) {
-    //     let { url, password } = req.body
-    //     //password = encript(password)
-    //     url = '/pad' + url
-    //     console.log('URL LOGIN:' + url)
-    //     const response = await Unipad.findOne({ url: url, password: password })
-
-    //     if (response !== null) {
-    //         return res.json({ success: true, authorized: true })
-    //     } else {
-    //         return res.json({ success: false, authorized: false })
-    //     }
-    // },
 
     // POST - Url
     async postUrl(req, res) {

@@ -5,10 +5,6 @@ module.exports = (req, res, next) => {
     try {
         const authHeader = req.headers.authorization
 
-        if (authHeader === process.env.STANDART_TOKEN) {
-            return next()
-        }
-
         if (!authHeader) {
             return res.json({ success: false, description: 'sem header' })
         }
@@ -28,7 +24,7 @@ module.exports = (req, res, next) => {
         jwt.verify(token, process.env.JWT_TOKEN, (err, decoded) => {
             if (err) return res.json({ success: false, description: 'token inválido', token })
 
-            req.userId = decoded.id
+            req.unipadid = decoded.id
 
             return next()
         })
