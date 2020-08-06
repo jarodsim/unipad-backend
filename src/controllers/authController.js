@@ -11,7 +11,7 @@ module.exports = {
         try {
             let { password, url } = req.body
             url = `/pad${url}`
-
+            console.log(`AUTH URL: ${url}`)
             const unipad = await Unipad.findOne({ url: url, password: password })
 
             if (unipad) {

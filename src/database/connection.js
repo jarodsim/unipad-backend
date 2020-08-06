@@ -13,7 +13,7 @@ if (process.env.NODE_ENV == 'production') {
 
         module.exports = connection
     } catch (error) {
-        console.log(error);
+        console.log(error)
     }
 } else {
     try {
@@ -27,7 +27,7 @@ if (process.env.NODE_ENV == 'production') {
 
         module.exports = connection
     } catch (error) {
-        console.log(error);
+        console.log(error)
     }
 }
 
