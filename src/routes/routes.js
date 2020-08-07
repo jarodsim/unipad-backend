@@ -12,6 +12,8 @@ Router.post('/auth', authControler.PostLogin)
 
 Router.post('/new', unipadController.postUrl)
 
+Router.post('/verifyExpiredUrl', unipadController.verifyExpiratedUrl)
+
 Router.delete('/expiration', unipadController.expirationUrl)
 
 Router.put('/edit', unipadController.putUrl)

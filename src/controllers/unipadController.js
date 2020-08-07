@@ -1,4 +1,6 @@
 const Unipad = require('../models/unipad')
+const ExpiredUrl = require('../models/expiredUrl')
+const expiredUrl = require('../models/expiredUrl')
 
 module.exports = {
     // GET - Url
@@ -92,6 +94,15 @@ module.exports = {
         console.log(`POST - NEW URL: ${url}`);
 
         try {
+            // verifica se a url já foi usada e adiciona o número de vezes
+            const unipadExpired = await ExpiredUrl.findOne({ url })
+            if (unipadExpired !== null) {
+                await ExpiredUrl.findOneAndUpdate({ url }, {
+                    numUsed: unipadExpired.numUsed + 1
+                })
+            }
+
+            // verifica se a url existe
             let unipad = await Unipad.findOne({ url })
 
             if (unipad === null) {
@@ -158,24 +169,74 @@ module.exports = {
         }
     },
 
-    async expirationUrl(rea, res) {
+    async verifyExpiratedUrl(req, res) {
+        try {
+            const { url } = req.body
+
+            const unipad = await ExpiredUrl.findOne({ url })
+
+            if (unipad !== null) {
+                console.log(unipad.viwed)
+                if (unipad.viwed) {
+                    return res.json({
+                        success: true,
+                        viwed: true
+                    })
+                } else {
+                    await ExpiredUrl.findOneAndUpdate({ url }, {
+                        viwed: true,
+                    })
+
+                    return res.json({
+                        success: true,
+                        viwed: false
+                    })
+                }
+            } else {
+                return res.json({
+                    success: false,
+                    description: 'url não encontrada'
+                })
+            }
+
+        } catch (error) {
+            console.log(error)
+            return res.json({
+                success: false,
+                description: 'erro na rota de verificação da url expirada',
+                error: error.message
+            })
+        }
+    },
+
+    async expirationUrl(req, res) {
         try {
             let response = await Unipad.find()
             let today = new Date()
 
             for (let i = 0; i < response.length; i++) {
                 if (response[i].expiration < today && response[i].expiration !== null) {
+                    // salvando url expirada na tabela
+                    await ExpiredUrl.create({
+                        url: response[i].url,
+                        dateExpiration: response[i].expiration,
+                        dateExpired: today,
+                        viwed: false,
+                        numUsed: 1,
+                    })
+
+                    // deletando  a tabela
                     await Unipad.findOneAndDelete({ url: response[i].url })
                     console.log(`${response[i].url} deletado pois foi expirada`);
                 }
             }
 
-            res.send(200)
+            return res.send(200)
         } catch (error) {
             console.log(error)
             return res.json({
                 success: false,
-                description: 'erro na rota',
+                description: 'erro na rota de deleção',
                 error: error.message
             })
         }
