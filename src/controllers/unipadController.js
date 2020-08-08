@@ -94,11 +94,14 @@ module.exports = {
         console.log(`POST - NEW URL: ${url}`);
 
         try {
-            // verifica se a url já foi usada e adiciona o número de vezes
+            // verifica se a url já foi usada e adiciona o número de vezes bem como seus dados atuais
             const unipadExpired = await ExpiredUrl.findOne({ url })
             if (unipadExpired !== null) {
                 await ExpiredUrl.findOneAndUpdate({ url }, {
-                    numUsed: unipadExpired.numUsed + 1
+                    numUsed: unipadExpired.numUsed + 1,
+                    viwed: expiration !== null ? false : true,
+                    dateExpired: new Date(),
+                    dateExpiration: expiration
                 })
             }
 
@@ -213,18 +216,21 @@ module.exports = {
         try {
             let response = await Unipad.find()
             let today = new Date()
+            const expiredUrls = await ExpiredUrl.find()
 
             for (let i = 0; i < response.length; i++) {
                 if (response[i].expiration < today && response[i].expiration !== null) {
-                    // salvando url expirada na tabela
-                    await ExpiredUrl.create({
-                        url: response[i].url,
-                        dateExpiration: response[i].expiration,
-                        dateExpired: today,
-                        viwed: false,
-                        numUsed: 1,
-                    })
-
+                    const expiredUrl = expiredUrls.filter(url => url.url === response[i].url)
+                    if (!expiredUrl) {
+                        // salvando url expirada na tabela
+                        await ExpiredUrl.create({
+                            url: response[i].url,
+                            dateExpiration: response[i].expiration,
+                            dateExpired: today,
+                            viwed: false,
+                            numUsed: 1,
+                        })
+                    }
                     // deletando  a tabela
                     await Unipad.findOneAndDelete({ url: response[i].url })
                     console.log(`${response[i].url} deletado pois foi expirada`);
