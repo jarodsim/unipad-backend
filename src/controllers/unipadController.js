@@ -179,7 +179,6 @@ module.exports = {
             const unipad = await ExpiredUrl.findOne({ url })
 
             if (unipad !== null) {
-                console.log(unipad.viwed)
                 if (unipad.viwed) {
                     return res.json({
                         success: true,
@@ -220,8 +219,10 @@ module.exports = {
 
             for (let i = 0; i < response.length; i++) {
                 if (response[i].expiration < today && response[i].expiration !== null) {
-                    const expiredUrl = expiredUrls.filter(url => url.url === response[i].url)
-                    if (!expiredUrl) {
+
+                    const expiredUrl = expiredUrls.filter((item) => item.url === response[i].url)
+
+                    if (expiredUrl.length === 0 || expiredUrls.length === 0) {
                         // salvando url expirada na tabela
                         await ExpiredUrl.create({
                             url: response[i].url,
