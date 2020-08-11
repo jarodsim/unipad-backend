@@ -1,4 +1,3 @@
-
 {
   "name": "unipadback",
   "version": "1.0.0",
@@ -6,7 +5,8 @@
   "license": "MIT",
   "author": "jarod cavalcante",
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": "nodemon server.js --ignore __tests__",
+    "test": "jest",
     "start": "node server.js"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "mongoose": "^5.9.15"
   },
   "devDependencies": {
+    "jest": "^26.2.2",
     "nodemon": "^2.0.4"
   }
 }
