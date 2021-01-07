@@ -1,7 +1,6 @@
 const Unipad = require('../models/unipad')
 
 const jwt = require('jsonwebtoken')
-const unipadController = require('./unipadController')
 require('dotenv').config()
 
 
@@ -30,7 +29,7 @@ module.exports = {
                 })
             }
         } catch (error) {
-            console.log(error.message, error.code);
+            console.log(error.message, error.code)
         }
     }
 }
