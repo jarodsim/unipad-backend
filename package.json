@@ -1,0 +1,28 @@
+{
+  "name": "unipadback",
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "author": "jarod cavalcante",
+  "scripts": {
+    "dev": "nodemon server.js --ignore __tests__",
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.2",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.22.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.15",
+    "socket.io": "^4.1.2"
+  },
+  "devDependencies": {
+    "jest": "^26.2.2",
+    "nodemon": "^2.0.4"
+  }
+}
