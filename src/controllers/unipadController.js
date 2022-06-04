@@ -121,11 +121,11 @@ module.exports = {
         pad,
         url,
         format,
-        u_id: unipad._id,
+        // u_id: unipad._id,
         tk_id: unipad_token_id,
       })
 
-      
+
       if (unipad !== null && String(unipad._id) === unipad_token_id) {
         if (onlyformat) {
           const unipad_updated = await Unipad.findOneAndUpdate(
