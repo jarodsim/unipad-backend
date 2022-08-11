@@ -125,7 +125,6 @@ module.exports = {
         tk_id: unipad_token_id,
       })
 
-
       if (unipad !== null && String(unipad._id) === unipad_token_id) {
         if (onlyformat) {
           const unipad_updated = await Unipad.findOneAndUpdate(
@@ -193,5 +192,9 @@ module.exports = {
     } catch (error) {
       console.log('error in delete expired urls ' + error)
     }
+  },
+
+  ping: async (req, res) => {
+    return res.status(200)
   },
 }
