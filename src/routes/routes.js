@@ -12,6 +12,6 @@ Router.post('/auth', authControler.PostLogin)
 
 Router.put('/', auth, unipadController.putUrl)
 
-Router.get('/', auth, unipadController.ping)
+Router.get('/', unipadController.ping)
 
 module.exports = Router
