@@ -12,11 +12,14 @@ function socketio() {
   })
 
   io.on('connection', (socket) => {
+    io.emit("connection", socket.id)
+    console.log(`'user connected`)
+
     socket.on('create', (url) => {
       socket.join(url)
 
       socket.on('editpad', (data) => {
-        socket.to(url).emit(url, data)
+        socket.to(url).emit(url, { url, data })
       })
     })
   })
