@@ -116,14 +116,6 @@ module.exports = {
 
     try {
       const unipad = await Unipad.findOne({ url })
-      console.log({
-        title: 'put',
-        pad,
-        url,
-        format,
-        // u_id: unipad._id,
-        tk_id: unipad_token_id,
-      })
 
       if (unipad !== null && String(unipad._id) === unipad_token_id) {
         if (onlyformat) {
