@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 require('dotenv').config()
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV) {
     try {
         const connection = mongoose.connect(process.env.CONNECTION_STRING,
             {
