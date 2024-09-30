@@ -9,6 +9,7 @@ function socketio() {
     cors: {
       origin: '*',
     },
+    transports: ['websocket'],
   })
 
   io.on('connection', (socket) => {
