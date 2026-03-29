@@ -1,33 +1,26 @@
 const mongoose = require('mongoose')
 require('dotenv').config()
 
-if (process.env.NODE_ENV === 'production') {
+const connectDB = async () => {
     try {
-        const connection = mongoose.connect(process.env.CONNECTION_STRING,
-            {
-                useNewUrlParser: true,
-                useUnifiedTopology: true
-            }, () => {
-                console.log('CONNECTED TO MONGO ATLAS DATABASE')
-            })
-
-        module.exports = connection
+        const connectionString = process.env.NODE_ENV === 'production' 
+            ? process.env.CONNECTION_STRING 
+            : 'mongodb://localhost:27017/unipad'
+        
+        const connection = await mongoose.connect(connectionString)
+        
+        if (process.env.NODE_ENV === 'production') {
+            console.log('CONNECTED TO MONGO ATLAS DATABASE')
+        } else {
+            console.log('CONNECTED TO LOCALHOST DATABASE')
+        }
+        
+        return connection
     } catch (error) {
-        console.log(error)
-    }
-} else {
-    try {
-        const connection = mongoose.connect('mongodb://localhost:27017/unipad',
-            {
-                useNewUrlParser: true,
-                useUnifiedTopology: true
-            }, () => {
-                console.log('CONNECTED TO LOCALHOST DATABASE')
-            })
-
-        module.exports = connection
-    } catch (error) {
-        console.log(error)
+        console.error('Database connection error:', error)
+        process.exit(1)
     }
 }
+
+module.exports = connectDB
 

@@ -17,7 +17,7 @@ app.use(compression())
 app.use(Rotas)
 
 // database connection
-connection
+connection()
 
 const PORT = process.env.PORT || 4000
 
